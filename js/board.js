@@ -141,6 +141,47 @@ export class ChessBoardUI {
   }
 
   /**
+   * Lar en brikke gli visuelt fra "from" til "to" etter at render() allerede
+   * har tegnet det ferdige resultatet. Hopper over animasjonen hvis brukeren
+   * har bedt om redusert bevegelse.
+   * @param {{from: string, to: string, color: 'w'|'b', piece: string}} move
+   */
+  animateMove(move) {
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
+    const fromBtn = this.squareButtons.get(move.from);
+    const toBtn = this.squareButtons.get(move.to);
+    if (!fromBtn || !toBtn) return;
+
+    const boardRect = this.container.getBoundingClientRect();
+    const fromRect = fromBtn.getBoundingClientRect();
+    const toRect = toBtn.getBoundingClientRect();
+    const fromStyle = window.getComputedStyle(fromBtn);
+
+    const ghost = document.createElement('span');
+    ghost.className = 'piece-ghost';
+    ghost.setAttribute('aria-hidden', 'true');
+    ghost.textContent = GLYPHS[move.color][move.piece];
+    ghost.style.width = `${fromRect.width}px`;
+    ghost.style.height = `${fromRect.height}px`;
+    ghost.style.fontSize = fromStyle.fontSize;
+    ghost.style.color = fromStyle.color;
+    ghost.style.transform = `translate(${fromRect.left - boardRect.left}px, ${fromRect.top - boardRect.top}px)`;
+    this.container.appendChild(ghost);
+
+    const dx = toRect.left - fromRect.left;
+    const dy = toRect.top - fromRect.top;
+
+    requestAnimationFrame(() => {
+      ghost.style.transform = `translate(${fromRect.left - boardRect.left + dx}px, ${fromRect.top - boardRect.top + dy}px)`;
+    });
+
+    const cleanup = () => ghost.remove();
+    ghost.addEventListener('transitionend', cleanup, { once: true });
+    window.setTimeout(cleanup, 400);
+  }
+
+  /**
    * Tegner brettet på nytt basert på nåværende tilstand.
    * @param {import('./vendor/chess.js').Chess} chess
    * @param {{selected?: string, legalTargets?: string[], lastMove?: {from:string,to:string}, kingInCheckSquare?: string}} state

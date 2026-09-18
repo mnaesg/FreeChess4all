@@ -157,6 +157,7 @@ async function applyMove(moveInput) {
 
   lastMove = { from: move.from, to: move.to };
   render();
+  boardUI.animateMove({ from: move.from, to: move.to, color: moverColor, piece: move.piece });
   playTone(move.captured ? 300 : 440, 120);
 
   let message = describeMove(move, moverColor);
