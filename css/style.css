@@ -27,10 +27,8 @@
     --color-accent: #57c785;
     --color-accent-contrast: #0b1210;
     --color-border: #3a3f44;
-    --square-selected: #d4a600;
     --square-legal: #3f7fae;
     --square-capture: #b1502f;
-    --square-last-move: #7a6a1f;
     --square-check: #c62828;
     --focus-ring: #7fb2ff;
   }
@@ -259,10 +257,12 @@ button:hover {
 
 .square.selected {
   background: var(--square-selected) !important;
+  color: #202020 !important;
 }
 
 .square.last-move {
   background: var(--square-last-move) !important;
+  color: #202020 !important;
 }
 
 .square.in-check {
