@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title data-i18n="site.title">Sjakk for skolen</title>
+  <meta name="description" content="Et gratis sjakkspill for barneskoleelever. Ingen innlogging, ingen reklame, ingen sporing." />
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%99%9E%3C/text%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <a class="skip-link" href="#main-content" data-i18n="skip.link">Hopp til spillet</a>
+
+  <header class="site-header">
+    <div class="site-header-inner">
+      <div>
+        <h1 data-i18n="site.title">Sjakk for skolen</h1>
+        <p class="tagline" data-i18n="site.tagline">Et gratis, trygt sjakkspill for barneskoleelever</p>
+      </div>
+      <nav aria-label="Hovedmeny">
+        <ul>
+          <li><a href="#main-content" data-i18n="nav.play">Spill</a></li>
+          <li><a href="#about-section" data-i18n="nav.about">Om spillet</a></li>
+          <li><a href="personvern.html" data-i18n="nav.privacy">Personvern</a></li>
+        </ul>
+      </nav>
+      <button id="lang-toggle" type="button" class="lang-toggle" aria-label="Change language / Bytt språk">English</button>
+    </div>
+  </header>
+
+  <main id="main-content">
+    <section class="controls-panel" aria-label="Spillinnstillinger">
+      <div class="control-group">
+        <label for="color-select" data-i18n="controls.color">Velg farge</label>
+        <select id="color-select">
+          <option value="w" data-i18n="controls.color.white">Hvit</option>
+          <option value="b" data-i18n="controls.color.black">Sort</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label for="difficulty-select" data-i18n="controls.difficulty">Vanskelighetsgrad</label>
+        <select id="difficulty-select">
+          <option value="easy" data-i18n="difficulty.easy">Lett</option>
+          <option value="medium" data-i18n="difficulty.medium">Middels</option>
+          <option value="hard" data-i18n="difficulty.hard">Vanskelig</option>
+        </select>
+      </div>
+
+      <div class="control-group buttons">
+        <button id="new-game-btn" type="button" class="primary-btn" data-i18n="controls.newGame">Nytt spill</button>
+        <button id="undo-btn" type="button" data-i18n="controls.undo">Angre trekk</button>
+      </div>
+
+      <div class="control-group checkboxes">
+        <label class="checkbox-label">
+          <input id="sound-toggle" type="checkbox" checked />
+          <span data-i18n="controls.sound">Lyd</span>
+        </label>
+        <label class="checkbox-label">
+          <input id="hints-toggle" type="checkbox" checked />
+          <span data-i18n="controls.showHints">Vis mulige trekk</span>
+        </label>
+      </div>
+    </section>
+
+    <section class="board-section" aria-label="Sjakkbrett">
+      <div id="board" class="chess-board"></div>
+      <p id="status-live" class="live-status" aria-live="polite"></p>
+      <p id="alert-live" class="live-status" aria-live="assertive"></p>
+    </section>
+
+    <section id="about-section" class="about-section">
+      <h2 data-i18n="about.heading">Om spillet</h2>
+      <p data-i18n="about.text">
+        Dette sjakkspillet er laget for barneskoleelever. Du kan spille direkte i nettleseren, uten å logge inn eller
+        opprette bruker. Spillet lagrer bare dine egne innstillinger (som språk og vanskelighetsgrad) på din egen enhet.
+      </p>
+    </section>
+  </main>
+
+  <dialog id="promotion-dialog" aria-labelledby="promotion-title">
+    <h2 id="promotion-title" data-i18n="promotion.title">Velg hvilken brikke bonden skal bli til</h2>
+    <div class="promotion-options"></div>
+  </dialog>
+
+  <footer class="site-footer">
+    <p data-i18n="footer.noData">Ingen personopplysninger samles inn. Ingen innlogging. Ingen reklame.</p>
+    <p><a href="personvern.html" data-i18n="nav.privacy">Personvern</a></p>
+  </footer>
+
+  <script type="module" src="js/main.js"></script>
+</body>
+</html>
