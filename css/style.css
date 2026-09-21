@@ -273,19 +273,18 @@ button:hover {
 .square.legal-target::after {
   content: "";
   position: absolute;
-  width: 30%;
-  height: 30%;
-  border-radius: 50%;
-  background: var(--square-legal);
+  inset: 8%;
+  border-radius: 0.2rem;
+  background: transparent;
+  border: 0.16rem solid var(--square-legal);
   opacity: 0.85;
+  pointer-events: none;
 }
 
 .square.legal-target.capture-target::after {
-  width: 80%;
-  height: 80%;
-  border-radius: 50%;
-  background: transparent;
-  border: 0.35rem solid var(--square-capture);
+  inset: 5%;
+  border-width: 0.22rem;
+  border-color: var(--square-capture);
 }
 
 .piece-glyph {
