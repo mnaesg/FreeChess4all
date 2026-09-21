@@ -13,7 +13,6 @@
   --square-selected: #ffd966;
   --square-legal: #4a90d9;
   --square-capture: #ff9e80;
-  --square-last-move: #fff3b0;
   --square-check: #ff5252;
   --focus-ring: #0b5fff;
 }
@@ -261,8 +260,7 @@ button:hover {
 }
 
 .square.last-move {
-  background: var(--square-last-move) !important;
-  color: #202020 !important;
+  box-shadow: inset 0 0 0 999px rgba(255, 214, 102, 0.25);
 }
 
 .square.in-check {
@@ -273,18 +271,19 @@ button:hover {
 .square.legal-target::after {
   content: "";
   position: absolute;
-  inset: 8%;
-  border-radius: 0.2rem;
-  background: transparent;
-  border: 0.16rem solid var(--square-legal);
+  width: 30%;
+  height: 30%;
+  border-radius: 50%;
+  background: var(--square-legal);
   opacity: 0.85;
-  pointer-events: none;
 }
 
 .square.legal-target.capture-target::after {
-  inset: 5%;
-  border-width: 0.22rem;
-  border-color: var(--square-capture);
+  width: 80%;
+  height: 80%;
+  border-radius: 50%;
+  background: transparent;
+  border: 0.35rem solid var(--square-capture);
 }
 
 .piece-glyph {
