@@ -6,7 +6,15 @@
   <title data-i18n="site.title">Sjakk for skolen</title>
   <meta name="description" content="Et gratis sjakkspill for barneskoleelever. Ingen innlogging, ingen reklame, ingen sporing." />
   <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'%3E%3Ctext y='.9em' font-size='90'%3E%E2%99%9E%3C/text%3E%3C/svg%3E" />
+  <link rel="alternate" type="application/json+oembed" href="https://mnaesg.github.io/FreeChess4all/oembed.json" title="Sjakk for skolen" />
   <link rel="stylesheet" href="css/style.css" />
+  <script>
+    // Setter kompakt embed-visning (skjuler topptekst/bunntekst) før siden tegnes,
+    // slik at den passer pent inn i en iframe på en annen nettside.
+    if (new URLSearchParams(location.search).get('embed')) {
+      document.documentElement.classList.add('embed-mode');
+    }
+  </script>
 </head>
 <body>
   <a class="skip-link" href="#main-content" data-i18n="skip.link">Hopp til spillet</a>

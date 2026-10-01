@@ -44,11 +44,40 @@ Siden kan hostes helt gratis som statiske filer, f.eks. med GitHub Pages:
 Andre gratis alternativer (Netlify, Cloudflare Pages, skolens egen
 webserver) fungerer også, siden det kun er statiske filer.
 
+## Bygge inn (embed) på andre nettsider
+
+Siden setter ingen `X-Frame-Options`/`Content-Security-Policy`-sperrer, så den
+kan legges inn i en `<iframe>` på andre nettsider (f.eks. en kommunal
+intranettside eller et LMS):
+
+```html
+<iframe
+  src="https://mnaesg.github.io/FreeChess4all/index.html?embed=1"
+  width="900"
+  height="900"
+  style="border:0;"
+  title="Sjakk for skolen"
+  loading="lazy">
+</iframe>
+```
+
+`?embed=1` slår på en kompakt visning uten topptekst/bunntekst/«om
+spillet»-seksjonen – bare brettet og de nødvendige kontrollene vises.
+
+**I SharePoint/Microsoft 365:** Hvis du limer inn kun URL-en i et
+"Embed"-webdelen og får en feilmelding om at adressen ikke støtter
+innbygging automatisk, velg **"Embed code" / "Legg til innebygd kode"** i
+stedet for "Legg til lenke", og lim inn `<iframe>`-koden over direkte.
+Siden publiserer også en `oembed.json` (lenket fra `<head>` i `index.html`)
+slik at automatisk gjenkjenning via bare URL også skal fungere i verktøy som
+støtter oEmbed-standarden.
+
 ## Prosjektstruktur
 
 ```
 index.html          Selve spillet
 personvern.html      Personvernerklæring
+oembed.json          oEmbed-metadata for automatisk innbygging (SharePoint m.fl.)
 css/style.css        Stil, fargekontrast, mørk modus, responsivt design
 js/main.js            Spilllogikk, innstillinger, tilgjengelighetsmeldinger
 js/board.js           Tegning av brettet + tastatur/pekerinteraksjon

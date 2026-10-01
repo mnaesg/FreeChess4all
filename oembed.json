@@ -1,0 +1,10 @@
+{
+  "version": "1.0",
+  "type": "rich",
+  "provider_name": "Sjakk for skolen",
+  "provider_url": "https://mnaesg.github.io/FreeChess4all/",
+  "title": "Sjakk for skolen",
+  "width": 900,
+  "height": 900,
+  "html": "<iframe src=\"https://mnaesg.github.io/FreeChess4all/index.html?embed=1\" width=\"900\" height=\"900\" style=\"border:0;\" title=\"Sjakk for skolen\" loading=\"lazy\"></iframe>"
+}
