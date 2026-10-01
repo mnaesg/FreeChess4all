@@ -45,6 +45,11 @@ const els = {
   hintsToggle: document.getElementById('hints-toggle'),
   langToggle: document.getElementById('lang-toggle'),
   promotionDialog: document.getElementById('promotion-dialog'),
+  gameOverDialog: document.getElementById('game-over-dialog'),
+  gameOverHeading: document.getElementById('game-over-heading'),
+  gameOverMessage: document.getElementById('game-over-message'),
+  confettiContainer: document.getElementById('confetti-container'),
+  playAgainBtn: document.getElementById('play-again-btn'),
 };
 
 const boardUI = new ChessBoardUI({
@@ -134,6 +139,36 @@ function describeMove(move, color) {
   return text;
 }
 
+const CONFETTI_COLORS = ['#e63946', '#f1c40f', '#2a9d8f', '#4a90d9', '#f4a261', '#9b5de5'];
+
+function spawnConfetti(count = 90) {
+  els.confettiContainer.innerHTML = '';
+  for (let i = 0; i < count; i += 1) {
+    const piece = document.createElement('span');
+    piece.className = 'confetti-piece';
+    piece.style.left = `${Math.random() * 100}%`;
+    piece.style.background = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
+    piece.style.animationDuration = `${1.8 + Math.random() * 1.6}s`;
+    piece.style.animationDelay = `${Math.random() * 0.6}s`;
+    piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+    els.confettiContainer.appendChild(piece);
+  }
+  window.setTimeout(() => {
+    els.confettiContainer.innerHTML = '';
+  }, 4500);
+}
+
+function showGameOverOverlay(kind) {
+  els.gameOverHeading.textContent = t(lang, `gameover.${kind}.heading`);
+  els.gameOverMessage.textContent = t(lang, `gameover.${kind}.message`);
+
+  if (kind === 'win' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+    spawnConfetti();
+  }
+
+  els.gameOverDialog.showModal();
+}
+
 function checkGameOverAndAnnounce() {
   if (!chess.isGameOver()) return false;
 
@@ -142,10 +177,13 @@ function checkGameOverAndAnnounce() {
     const playerWon = loserColor !== settings.playerColor;
     announce(t(lang, playerWon ? 'status.checkmateWin' : 'status.checkmateLose'), { assertive: true });
     playTone(playerWon ? 660 : 220, 400);
+    showGameOverOverlay(playerWon ? 'win' : 'lose');
   } else if (chess.isStalemate()) {
     announce(t(lang, 'status.stalemate'), { assertive: true });
+    showGameOverOverlay('draw');
   } else if (chess.isDraw()) {
     announce(t(lang, 'status.draw'), { assertive: true });
+    showGameOverOverlay('draw');
   }
   return true;
 }
@@ -249,6 +287,7 @@ async function handleSquareActivate(square) {
 }
 
 function newGame() {
+  if (els.gameOverDialog.open) els.gameOverDialog.close();
   chess.reset();
   selectedSquare = null;
   legalTargets = [];
@@ -312,6 +351,10 @@ function initControls() {
   els.langToggle.addEventListener('click', () => {
     applyLanguage(lang === 'nb' ? 'en' : 'nb');
     els.langToggle.textContent = t(lang, 'lang.toggle');
+  });
+
+  els.playAgainBtn.addEventListener('click', () => {
+    newGame();
   });
 }
 

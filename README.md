@@ -18,6 +18,11 @@ uten å være avhengig av inntekter fra brukerdata eller reklame.
   opp trekk og status for skjermlesere, tydelig fokusmarkering, støtte for
   `prefers-reduced-motion` og mørk modus, og markering av lovlige trekk som
   ikke er avhengig av farge alene (prikk/ring, ikke bare farge).
+- **Tydelige brikker** – klassiske svart/hvite brikkeikoner (Cburnett-settet)
+  på grønn/krem-rutefarger, slik at brikkens farge er lett å se uansett
+  hvilken rute den står på.
+- **Seier/tap-skjerm** – stor tydelig tekst ved slutten av partiet (med
+  konfetti ved seier), og en "Spill på nytt"-knapp for å starte rett på nytt.
 - **To språk** – norsk (bokmål) og engelsk, med en enkel bytteknapp.
 
 ## Kom i gang
@@ -79,12 +84,13 @@ index.html          Selve spillet
 personvern.html      Personvernerklæring
 oembed.json          oEmbed-metadata for automatisk innbygging (SharePoint m.fl.)
 css/style.css        Stil, fargekontrast, mørk modus, responsivt design
-js/main.js            Spilllogikk, innstillinger, tilgjengelighetsmeldinger
+js/main.js            Spilllogikk, innstillinger, tilgjengelighetsmeldinger, seier/tap-skjerm
 js/board.js           Tegning av brettet + tastatur/pekerinteraksjon
 js/ai.js               Sjakkmotor (minimax + alfa-beta), 3 vanskelighetsgrader
 js/i18n.js             Norsk/engelsk tekst
 js/page-i18n.js        Språkbytte for enkle undersider (personvern.html)
 js/vendor/chess.js      Sjakkregler (vendoret bibliotek, se THIRD_PARTY_LICENSES.md)
+assets/pieces/*.svg     Brikkeikoner (vendoret, se THIRD_PARTY_LICENSES.md)
 ```
 
 ## Justere vanskelighetsgrad

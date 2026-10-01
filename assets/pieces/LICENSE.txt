@@ -1,0 +1,15 @@
+Sjakkbrikke-ikonene (wP.svg .. bK.svg) i denne mappen er det klassiske
+"Cburnett"-settet med SVG-sjakkbrikker, opprinnelig publisert på Wikimedia
+Commons: https://commons.wikimedia.org/wiki/Category:SVG_chess_pieces/Standard
+
+Opphavspersoner:
+- Colin M.L. Burnett (Cburnett)
+- Robert C. (Rfc1394) – mindre justeringer
+
+Lisens: Creative Commons Attribution-ShareAlike 3.0 Unported (CC BY-SA 3.0)
+https://creativecommons.org/licenses/by-sa/3.0/
+(Brikkene er trippel-lisensiert av opphavspersonen, og er også tilgjengelige
+under GFDL og BSD-lisensen; se Wikimedia Commons-siden over for detaljer.)
+
+Filene ble hentet via npm-pakken "react-chess-pieces", som pakker det samme
+ikonsettet i enkeltstående SVG-filer per brikke/farge.

@@ -1,15 +1,15 @@
 // Tilgjengelig, tastaturvennlig sjakkbrett-UI.
-// Bruker Unicode-sjakktegn (ingen bilder/kostnad) og ARIA-grid-mønster med "roving tabindex".
+// Bruker lokale SVG-brikkeikoner (Cburnett-settet, se assets/pieces/LICENSE.txt)
+// og ARIA-grid-mønster med "roving tabindex".
 
 import { t } from './i18n.js';
 
 const FILES = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
 const RANKS = ['8', '7', '6', '5', '4', '3', '2', '1'];
 
-const GLYPHS = {
-  w: { p: '♙', n: '♘', b: '♗', r: '♖', q: '♕', k: '♔' },
-  b: { p: '♟', n: '♞', b: '♝', r: '♜', q: '♛', k: '♚' },
-};
+function pieceIconPath(color, type) {
+  return `assets/pieces/${color}${type.toUpperCase()}.svg`;
+}
 
 export class ChessBoardUI {
   constructor({ container, lang, onSquareActivate }) {
@@ -59,9 +59,11 @@ export class ChessBoardUI {
         btn.className = `square ${isLight ? 'light' : 'dark'}`;
         btn.tabIndex = -1;
 
-        const glyph = document.createElement('span');
+        const glyph = document.createElement('img');
         glyph.className = 'piece-glyph';
         glyph.setAttribute('aria-hidden', 'true');
+        glyph.setAttribute('alt', '');
+        glyph.hidden = true;
         btn.appendChild(glyph);
 
         btn.addEventListener('click', () => this._activate(square));
@@ -156,16 +158,16 @@ export class ChessBoardUI {
     const boardRect = this.container.getBoundingClientRect();
     const fromRect = fromBtn.getBoundingClientRect();
     const toRect = toBtn.getBoundingClientRect();
-    const fromStyle = window.getComputedStyle(fromBtn);
+    const iconPadding = window.getComputedStyle(fromBtn.querySelector('.piece-glyph')).padding;
 
-    const ghost = document.createElement('span');
+    const ghost = document.createElement('img');
     ghost.className = 'piece-ghost';
     ghost.setAttribute('aria-hidden', 'true');
-    ghost.textContent = GLYPHS[move.color][move.piece];
+    ghost.setAttribute('alt', '');
+    ghost.src = pieceIconPath(move.color, move.piece);
     ghost.style.width = `${fromRect.width}px`;
     ghost.style.height = `${fromRect.height}px`;
-    ghost.style.fontSize = fromStyle.fontSize;
-    ghost.style.color = fromStyle.color;
+    ghost.style.padding = iconPadding;
     ghost.style.transform = `translate(${fromRect.left - boardRect.left}px, ${fromRect.top - boardRect.top}px)`;
     this.container.appendChild(ghost);
 
@@ -194,7 +196,13 @@ export class ChessBoardUI {
       const glyphEl = btn.querySelector('.piece-glyph');
 
       btn.classList.remove('selected', 'legal-target', 'last-move', 'in-check', 'capture-target');
-      glyphEl.textContent = piece ? GLYPHS[piece.color][piece.type] : '';
+      if (piece) {
+        glyphEl.src = pieceIconPath(piece.color, piece.type);
+        glyphEl.hidden = false;
+      } else {
+        glyphEl.removeAttribute('src');
+        glyphEl.hidden = true;
+      }
 
       let label = square;
       if (piece) {
@@ -238,7 +246,18 @@ export function promptPromotion(dialogEl, color, lang) {
       const btn = document.createElement('button');
       btn.type = 'button';
       btn.className = 'promotion-choice';
-      btn.textContent = `${GLYPHS[color][type]} ${t(lang, `promotion.${{ q: 'queen', r: 'rook', b: 'bishop', n: 'knight' }[type]}`)}`;
+
+      const icon = document.createElement('img');
+      icon.className = 'promotion-icon';
+      icon.alt = '';
+      icon.setAttribute('aria-hidden', 'true');
+      icon.src = pieceIconPath(color, type);
+      btn.appendChild(icon);
+
+      const label = document.createElement('span');
+      label.textContent = t(lang, `promotion.${{ q: 'queen', r: 'rook', b: 'bishop', n: 'knight' }[type]}`);
+      btn.appendChild(label);
+
       btn.addEventListener('click', () => {
         dialogEl.close();
         resolve(type);
