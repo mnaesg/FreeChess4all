@@ -73,9 +73,15 @@
     </section>
 
     <section class="board-section" aria-label="Sjakkbrett">
-      <div id="board" class="chess-board"></div>
-      <p id="status-live" class="live-status" aria-live="polite"></p>
-      <p id="alert-live" class="live-status" aria-live="assertive"></p>
+      <div class="move-history-panel">
+        <h2 class="move-history-heading" data-i18n="moveHistory.heading">Trekk</h2>
+        <div id="move-history" class="move-history" data-i18n-attr="aria-label:moveHistory.label"></div>
+      </div>
+      <div class="board-column">
+        <div id="board" class="chess-board"></div>
+        <p id="status-live" class="live-status" aria-live="polite"></p>
+        <p id="alert-live" class="live-status" aria-live="assertive"></p>
+      </div>
     </section>
 
     <section id="about-section" class="about-section">

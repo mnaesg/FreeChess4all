@@ -50,6 +50,7 @@ const els = {
   gameOverMessage: document.getElementById('game-over-message'),
   confettiContainer: document.getElementById('confetti-container'),
   playAgainBtn: document.getElementById('play-again-btn'),
+  moveHistory: document.getElementById('move-history'),
 };
 
 const boardUI = new ChessBoardUI({
@@ -112,6 +113,45 @@ function render() {
     lastMove,
     kingInCheckSquare: currentCheckSquare(),
   });
+  renderMoveHistory();
+}
+
+function renderMoveHistory() {
+  const sanMoves = chess.history();
+  els.moveHistory.innerHTML = '';
+
+  if (sanMoves.length === 0) {
+    const empty = document.createElement('p');
+    empty.className = 'move-history-empty';
+    empty.textContent = t(lang, 'moveHistory.empty');
+    els.moveHistory.appendChild(empty);
+    return;
+  }
+
+  for (let i = 0; i < sanMoves.length; i += 2) {
+    const row = document.createElement('div');
+    row.className = 'move-row';
+    if (i === sanMoves.length - 1 || i === sanMoves.length - 2) {
+      row.classList.add('current-move');
+    }
+
+    const number = document.createElement('span');
+    number.className = 'move-number';
+    number.textContent = `${i / 2 + 1}.`;
+
+    const white = document.createElement('span');
+    white.className = 'move-white';
+    white.textContent = sanMoves[i] || '';
+
+    const black = document.createElement('span');
+    black.className = 'move-black';
+    black.textContent = sanMoves[i + 1] || '';
+
+    row.append(number, white, black);
+    els.moveHistory.appendChild(row);
+  }
+
+  els.moveHistory.scrollTop = els.moveHistory.scrollHeight;
 }
 
 function describeMove(move, color) {
