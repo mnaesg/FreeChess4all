@@ -180,22 +180,37 @@ function describeMove(move, color) {
 }
 
 const CONFETTI_COLORS = ['#e63946', '#f1c40f', '#2a9d8f', '#4a90d9', '#f4a261', '#9b5de5'];
+let confettiIntervalId = null;
 
-function spawnConfetti(count = 90) {
-  els.confettiContainer.innerHTML = '';
+function spawnConfettiBurst(count = 70) {
   for (let i = 0; i < count; i += 1) {
     const piece = document.createElement('span');
     piece.className = 'confetti-piece';
     piece.style.left = `${Math.random() * 100}%`;
     piece.style.background = CONFETTI_COLORS[i % CONFETTI_COLORS.length];
     piece.style.animationDuration = `${1.8 + Math.random() * 1.6}s`;
-    piece.style.animationDelay = `${Math.random() * 0.6}s`;
+    piece.style.animationDelay = `${Math.random() * 0.4}s`;
     piece.style.transform = `rotate(${Math.random() * 360}deg)`;
+    // Hver konfettibit fjerner seg selv når dens egen animasjon er ferdig,
+    // slik at gjentatte "drysser" ikke hoper seg opp i DOM-en.
+    piece.addEventListener('animationend', () => piece.remove());
     els.confettiContainer.appendChild(piece);
   }
-  window.setTimeout(() => {
-    els.confettiContainer.innerHTML = '';
-  }, 4500);
+}
+
+// Fortsetter å "dryss" konfetti helt til seiersskjermen lukkes - en skikkelig feiring.
+function startConfettiCelebration() {
+  stopConfettiCelebration();
+  spawnConfettiBurst();
+  confettiIntervalId = window.setInterval(() => spawnConfettiBurst(), 1500);
+}
+
+function stopConfettiCelebration() {
+  if (confettiIntervalId !== null) {
+    window.clearInterval(confettiIntervalId);
+    confettiIntervalId = null;
+  }
+  els.confettiContainer.innerHTML = '';
 }
 
 function showGameOverOverlay(kind) {
@@ -203,7 +218,7 @@ function showGameOverOverlay(kind) {
   els.gameOverMessage.textContent = t(lang, `gameover.${kind}.message`);
 
   if (kind === 'win' && !window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
-    spawnConfetti();
+    startConfettiCelebration();
   }
 
   els.gameOverDialog.showModal();
@@ -396,6 +411,9 @@ function initControls() {
   els.playAgainBtn.addEventListener('click', () => {
     newGame();
   });
+
+  // Stopp konfettien uansett hvordan seiersskjermen lukkes (knapp, Escape, osv.).
+  els.gameOverDialog.addEventListener('close', stopConfettiCelebration);
 }
 
 function init() {
